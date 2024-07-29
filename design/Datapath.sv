@@ -18,6 +18,7 @@ module Datapath #(
     MemWrite,  // Register file or Immediate MUX // Memroy Writing Enable
     MemRead,  // Memroy Reading Enable
     Branch,  // Branch Enable
+    input  logic [          1:0] JalType,  // Jump and Link Register Enable
     input  logic [          1:0] ALUOp,
     input  logic [ALU_CC_W -1:0] ALU_CC,         // ALU Control Code ( input of the ALU )
     output logic [          6:0] opcode,
@@ -42,7 +43,7 @@ module Datapath #(
   logic [INS_W-1:0] Instr;
   logic [DATA_W-1:0] Reg1, Reg2;
   logic [DATA_W-1:0] ReadData;
-  logic [DATA_W-1:0] SrcB, ALUResult;
+  logic [DATA_W-1:0] SrcB, ALUResult, EXResult;
   logic [DATA_W-1:0] ExtImm, BrImm, Old_PC_Four, BrPC;
   logic [DATA_W-1:0] WrmuxSrc;
   logic PcSel;  // mux select / flush signal
@@ -141,6 +142,7 @@ module Datapath #(
       B.MemWrite <= 0;
       B.ALUOp <= 0;
       B.Branch <= 0;
+      B.JalType <= 0;
       B.Curr_Pc <= 0;
       B.RD_One <= 0;
       B.RD_Two <= 0;
@@ -159,6 +161,7 @@ module Datapath #(
       B.MemWrite <= MemWrite;
       B.ALUOp <= ALUOp;
       B.Branch <= Branch;
+      B.JalType <= JalType;
       B.Curr_Pc <= A.Curr_Pc;
       B.RD_One <= Reg1;
       B.RD_Two <= Reg2;
@@ -221,13 +224,20 @@ module Datapath #(
       B.Curr_Pc,
       B.ImmG,
       B.Branch,
+      B.JalType,
       ALUResult,
       BrImm,
       Old_PC_Four,
       BrPC,
       PcSel
   );
-
+  mux2 #(32) resjmp (
+      ALUResult,
+      {24'h000000 , B.Curr_Pc},
+      PcSel,
+      EXResult
+  );
+  
   // EX_MEM_Reg C;
   always @(posedge clk) begin
     if (reset)   // initialization
@@ -252,7 +262,7 @@ module Datapath #(
       C.Pc_Imm <= BrImm;
       C.Pc_Four <= Old_PC_Four;
       C.Imm_Out <= B.ImmG;
-      C.Alu_Result <= ALUResult;
+      C.Alu_Result <= EXResult;
       C.RD_Two <= FBmux_Result;
       C.rd <= B.rd;
       C.func3 <= B.func3;

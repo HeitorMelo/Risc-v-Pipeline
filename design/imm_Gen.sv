@@ -8,7 +8,8 @@ module imm_Gen (
 
   always_comb
     case (inst_code[6:0])
-      7'b0000011:  /*I-type load part*/
+      7'b0000011,  /*I-type load part*/
+      7'b1100111:  /*I-type jalr part*/
       Imm_out = {inst_code[31] ? 20'hFFFFF : 20'b0, inst_code[31:20]};
 
       7'b0100011:  /*S-type*/
@@ -24,15 +25,15 @@ module imm_Gen (
         1'b0
       };
 
-      7'0110111:  /*U-type*/
+      7'b0110111:  /*U-type*/
       Imm_out = {inst_code[31:12], 12'b0};
 
       // imm[20|10:1|11|19:12] -- 11:0 for J-type
       // 31 | 30:21 | 20 | 19:12 | 11 : 0 
       
-      7'1101111:  /*J-type*/
+      7'b1101111:  /*J-type*/
       Imm_out = {
-        inst_code[31] ? 11'7FF : 11'b0,
+        inst_code[31] ? 11'h7FF : 11'b0,
         inst_code[31],
         inst_code[19:12],
         inst_code[20],

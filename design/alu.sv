@@ -17,29 +17,32 @@ module alu#(
             case(Operation)
             4'b0000:        // AND
                     ALUResult = SrcA & SrcB;
-            4'b0010:        // ADD
+            4'b0001:        // XOR
+                    ALUResult = SrcA ^ SrcB;
+            4'b0010:        // OR
+                    ALUResult = SrcA || SrcB;
+            4'b0011:        // ADD
                     ALUResult = SrcA + SrcB;
-            4'b0011:        // Equal
+            4'b0100:        // SUB
+                    ALUResult = SrcA - SrcB;
+            4'b0101:        // Equal
                     ALUResult = (SrcA == SrcB) ? 1 : 0;
-            4'b0100:        // Lui
-                    ALUResult = (SrcA == SrcB) ? 1 : 0;
-            4'b0101:        // 
-                    ALUResult = (SrcA == SrcB) ? 1 : 0;
-            4'b0110:        // 
-                    ALUResult = (SrcA == SrcB) ? 1 : 0;
-            4'b0111:        // shift right 
+            4'b0110:        // Not equal
+                    ALUResult = (SrcA != SrcB) ? 1 : 0;
+            4'b0111:        // less than
+                    ALUResult = (SrcA < SrcB) ? 1 : 0;
+            4'b1000:        // greater or equal than
+                    ALUResult = (SrcA >= SrcB) ? 1 : 0;
+            4'b1001:        // shift right (logic)
                     ALUResult = SrcA >> SrcB;
-            4'b1000:        // Equal
-                    ALUResult = (SrcA == SrcB) ? 1 : 0;
-            4'b1001:        // Equal
-                    ALUResult = (SrcA == SrcB) ? 1 : 0;
-            4'b1010:        // Equal
-                    ALUResult = (SrcA == SrcB) ? 1 : 0;
-            4'b1011:        // Equal
-                    ALUResult = (SrcA == SrcB) ? 1 : 0;
-            4'b1100:        // Equal
-                    ALUResult = (SrcA == SrcB) ? 1 : 0;
-
+            4'b1010:        // shift left (logic)
+                    ALUResult = (SrcA << SrcB);
+            4'b1011:        // shift right (arithmetic)
+                    ALUResult = SrcA >>> SrcB;
+//            4'b1011:        // shift left (arithmetic)
+//                    ALUResult = SrcA <<< SrcB;
+            4'b1111:        // True
+                    ALUResult = 1;
             default:
                     ALUResult = 0;
             endcase
