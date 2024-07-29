@@ -9,6 +9,7 @@ module alu#(
         input logic [DATA_WIDTH-1:0]    SrcB,
 
         input logic [OPCODE_LENGTH-1:0]    Operation,
+
         output logic[DATA_WIDTH-1:0] ALUResult
         );
     
@@ -21,7 +22,7 @@ module alu#(
                     ALUResult = SrcA ^ SrcB;
             4'b0010:        // OR
                     ALUResult = SrcA || SrcB;
-            4'b0011:        // ADD
+            4'b0011:        // ADD, ADDI
                     ALUResult = SrcA + SrcB;
             4'b0100:        // SUB
                     ALUResult = SrcA - SrcB;

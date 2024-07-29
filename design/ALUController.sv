@@ -10,15 +10,19 @@ module ALUController (
     output logic [3:0] Operation  // operation selection for ALU
 );
 
+//ADDI, ADD(ok) - 0011
+
 
   assign Operation[0] = ((ALUOp == 2'b10) && (Funct3 == 3'b110)) ||  // R\I-or
 	 		((ALUOp == 2'b01) && (Funct3 == 3'b000)) ||  // BEQ
 			((ALUOp == 2'b10) && (Funct3 == 3'b000)) ||	// ADD
+      ((ALUOp == 2'b10) && (Funct3 == 3'b000) && (Funct7 != 7'b0100000)) ||  //ADDI 
       ((ALUOp == 2'b10) && (Funct3 == 3'b101) && (Funct7 == 7'b0000000)) ||  // R\I->>
       ((ALUOp == 2'b10) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000));  // R\I->>>
 
   assign Operation[1] = (ALUOp == 2'b00) ||  // LW\SW
       ((ALUOp == 2'b10) && (Funct3 == 3'b000)) ||  // ADD
+      ((ALUOp == 2'b10) && (Funct3 == 3'b000) && (Funct7 != 7'b0100000)) ||  // ADDI
       ((ALUOp == 2'b10) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000));  // R\I->>>
 
   assign Operation[2] =  ((ALUOp==2'b10) && (Funct3==3'b101) && (Funct7==7'b0000000)) || // R\I->>
