@@ -38,6 +38,11 @@ module datamemory #(
       case (Funct3)
         3'b010:  //LW
         rd <= Dataout;
+        3'b001:  //LH
+        // converter 16 pra 32 aqui   
+        rd <= $signed(Dataout[15:0]); // dúvida nessa parte ... 
+        3'b100:  //LBU 
+        rd <= Dataout[7:0];
         default: rd <= Dataout;
       endcase
     end else if (MemWrite) begin
