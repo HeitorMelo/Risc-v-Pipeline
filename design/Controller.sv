@@ -20,22 +20,25 @@ module Controller (
     output logic [1:0] JalType  //0: instruction is not a jump, 1: instruction is a jump
 );
 
-  logic [6:0] R_TYPE, LW, SW, BR, JAL, JALR;
+  logic [6:0] R_TYPE, I_TYPE, LW, SW, BR, JAL, JALR;
 
   assign R_TYPE = 7'b0110011;  //add,and
+  assign I_TYPE = 7'b0010011;  //addi, andi, ori, xori, slti, sltiu, slli, srli, srai
   assign LW = 7'b0000011;  //lw
   assign SW = 7'b0100011;  //sw
-  assign BR = 7'b1100011;  //beq
+  assign BR = 7'b1100011;  //branch
   assign JAL = 7'b1101111;  //jal
   assign JALR = 7'b1100111;  //jalr
 
-  assign ALUSrc = (Opcode == LW || Opcode == SW || Opcode == JALR);
+  assign ALUSrc = (Opcode == LW || Opcode == SW || Opcode == JALR || Opcode == I_TYPE);
   assign MemtoReg = (Opcode == LW);
-  assign RegWrite = (Opcode == R_TYPE || Opcode == LW || Opcode == JAL || Opcode == JALR);
+  assign RegWrite = (Opcode == R_TYPE || Opcode == LW || Opcode == JAL || Opcode == JALR || Opcode == I_TYPE);
   assign MemRead = (Opcode == LW);
   assign MemWrite = (Opcode == SW);
-  assign ALUOp[0] = (Opcode == BR);
-  assign ALUOp[1] = (Opcode == R_TYPE || Opcode == JAL || Opcode == JALR);
+
+  assign ALUOp[0] = (Opcode == I_TYPE || Opcode == BR);
+  assign ALUOp[1] = (Opcode == I_TYPE || Opcode == R_TYPE || Opcode == JAL || Opcode == JALR);
+
   assign Branch = (Opcode == BR);
   assign JalType = {Opcode == JAL, Opcode == JALR};
 
