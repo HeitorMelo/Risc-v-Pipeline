@@ -233,7 +233,7 @@ module Datapath #(
   );
   mux2 #(32) resjmp (
       ALUResult,
-      {24'h000000 , B.Curr_Pc},
+      {24'h000000 , Old_PC_Four},
       PcSel,
       EXResult
   );
