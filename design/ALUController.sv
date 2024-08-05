@@ -10,21 +10,25 @@ module ALUController (
     output logic [3:0] Operation  // operation selection for ALU
 );
 
-//ADDI, ADD(ok) - 0011
+//ADDI, ADD(ok) - 0011 . ver de tras p frente
+// XOR - 0010 
+// OR- 0001 
 
 
-  assign Operation[0] = ((ALUOp == 2'b10) && (Funct3 == 3'b110)) ||  // R\I-or
-	 		((ALUOp == 2'b01) && (Funct3 == 3'b000)) ||  // BEQ
-			((ALUOp == 2'b10) && (Funct3 == 3'b000)) ||	// ADD
-            (ALUOp == 2'b00) ||  // LW\SW\LH\LBU
-      ((ALUOp == 2'b10) && (Funct3 == 3'b000) && (Funct7 != 7'b0100000)) ||  //ADDI 
-      ((ALUOp == 2'b10) && (Funct3 == 3'b101) && (Funct7 == 7'b0000000)) ||  // R\I->>
-      ((ALUOp == 2'b10) && (Funct3 == 3'b010)) || // SLTI 
-      ((ALUOp == 2'b10) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000));  // R\I->>>
+  assign Operation[0] = ((ALUOp == 2'b10) && (Funct3 == 3'b110)) ||                      // R\I-or
+	 		((ALUOp == 2'b01) && (Funct3 == 3'b000)) ||                                 // BEQ
+			((ALUOp == 2'b10) && (Funct3 == 3'b000)) ||	                               // ADD
+            (ALUOp == 2'b00) ||                                                       // LW\SW\LH\LBU
+            ((ALUOp == 2'b10) && (Funct3 == 3'b000) && (Funct7 != 7'b0100000)) ||    //ADDI 
+            ((ALUOp == 2'b10) && (Funct3 == 3'b110) && (Funct7 == 7'b0000000)) ||   // OR
+            ((ALUOp == 2'b10) && (Funct3 == 3'b101) && (Funct7 == 7'b0000000)) ||  // R\I->>
+            ((ALUOp == 2'b10) && (Funct3 == 3'b010)) ||                           // SLTI 
+            ((ALUOp == 2'b10) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000));  // R\I->>>
 
   assign Operation[1] = (ALUOp == 2'b00) ||  // LW\SW\LH\LBU
       ((ALUOp == 2'b10) && (Funct3 == 3'b000)) ||  // ADD
       ((ALUOp == 2'b10) && (Funct3 == 3'b000) && (Funct7 != 7'b0100000)) ||  // ADDI
+      ((ALUOp == 2'b10) && (Funct3 == 3'b100) && (Funct7 == 7'b0000000)) ||  // XOR
       ((ALUOp == 2'b10) && (Funct3 == 3'b010)) || // SLTI 
       ((ALUOp == 2'b01) && (Funct3 == 3'b001)) || // BNE
       ((ALUOp == 2'b10) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000));  // R\I->>>
