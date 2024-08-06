@@ -32,7 +32,7 @@ module alu#(
                     ALUResult = (SrcA != SrcB) ? 1 : 0;
             4'b0111:        // less than
                     ALUResult = (SrcA < SrcB) ? 1 : 0;
-            4'b1000:        // greater or equal than
+            4'b1000:        // BGE
                     ALUResult = (SrcA >= SrcB) ? 1 : 0;
             4'b1001:        // shift right (logic)
                     ALUResult = SrcA >> SrcB;

@@ -22,11 +22,11 @@ module Controller (
 
   logic [6:0] R_TYPE, I_TYPE, LW, SW, BR, JAL, JALR, LUI;
 
-  assign R_TYPE = 7'b0110011;  //add,and
+  assign R_TYPE = 7'b0110011;  //ADD, AND, OR, XOR, ADD, SUB, SRL, SRA, SLL, SLT, SLTU
   assign I_TYPE = 7'b0010011;  //addi, andi, ori, xori, slti, sltiu, slli, srli, srai
   assign LW = 7'b0000011;  //lw
   assign SW = 7'b0100011;  //sw
-  assign BR = 7'b1100011;  //branch
+  assign BR = 7'b1100011;  //branch - BEQ, BNE, BLT, BGE, BLTU, BGEU
   assign JAL = 7'b1101111;  //jal
   assign JALR = 7'b1100111;  //jalr
   assign LUI = 7'b0110111;  //lui
