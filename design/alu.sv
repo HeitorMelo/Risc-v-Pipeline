@@ -40,8 +40,8 @@ module alu#(
                     ALUResult = (SrcA << SrcB);
             4'b1011:        // shift right (arithmetic)
                     ALUResult = SrcA >>> SrcB;
-//            4'b1011:        // shift left (arithmetic)
-//                    ALUResult = SrcA <<< SrcB;
+            4'b1100:        // set with srcB
+                    ALUResult = SrcB;
             4'b1111:        // True
                     ALUResult = 1;
             default:
