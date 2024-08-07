@@ -26,11 +26,11 @@ module alu#(
                     ALUResult = SrcA + SrcB;
             4'b0100:        // SUB
                     ALUResult = SrcA - SrcB;
-            4'b0101:        // Equal
+            4'b0101:        // BEQ
                     ALUResult = (SrcA == SrcB) ? 1 : 0;
-            4'b0110:        // Not equal
+            4'b0110:        // BNE
                     ALUResult = (SrcA != SrcB) ? 1 : 0;
-            4'b0111:        // less than
+            4'b0111:        // BLT 
                     ALUResult = (SrcA < SrcB) ? 1 : 0;
             4'b1000:        // BGE
                     ALUResult = (SrcA >= SrcB) ? 1 : 0;
