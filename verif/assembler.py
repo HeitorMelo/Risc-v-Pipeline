@@ -30,6 +30,7 @@ import os
 
 # bits 0-6
 opcode = {
+ "halt": "1111111",
  "lui": "0110111",
  "auipc": "0010111",
  "jal": "1101111",
@@ -213,8 +214,11 @@ def translate(instruction):
 def translate_instruction(instruction):
 	instr = instruction.split(" ")[0]
 
-	rd = instruction.split(" ")[1].split(",")[0]
-	rd = bin(int(rd[1:]))[2:].zfill(5)
+	if (instr == "halt"):
+		binary = 25 * "0" + opcode[instr]
+	else:
+		rd = instruction.split(" ")[1].split(",")[0]
+		rd = bin(int(rd[1:]))[2:].zfill(5)
 
 	if (instr == "lui" or instr == "auipc"):
 		imm = instruction.split(" ")[1].split(",")[1]
