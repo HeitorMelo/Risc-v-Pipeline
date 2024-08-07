@@ -34,13 +34,13 @@ module alu#(
                     ALUResult = (SrcA < SrcB) ? 1 : 0;
             4'b1000:        // BGE
                     ALUResult = (SrcA >= SrcB) ? 1 : 0;
-            4'b1001:        // shift right (logic)
+            4'b1001:        // shift right (logic) - SRLI
                     ALUResult = SrcA >> SrcB;
-            4'b1010:        // shift left (logic)
+            4'b1010:        // shift left (logic) - SLLI
                     ALUResult = (SrcA << SrcB);
-            4'b1011:        // shift right (arithmetic)
+            4'b1011:        // shift right (arithmetic) - SRAI 
                     ALUResult = SrcA >>> SrcB;
-            4'b1100:        // set with srcB
+            4'b1100:        // set with srcB - nossa LUI !
                     ALUResult = SrcB;
             4'b1111:        // True
                     ALUResult = 1;
