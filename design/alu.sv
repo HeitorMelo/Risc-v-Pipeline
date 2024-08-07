@@ -23,9 +23,8 @@ module alu#(
             4'b0010:        // OR
                     ALUResult = SrcA || SrcB;
             4'b0011:        // ADD, ADDI
-                    ALUResult = $signed(SrcA) + $signed(SrcB);
+                    ALUResult = SrcA + SrcB;
             4'b0100:        // SUB
-<<<<<<< HEAD
                     ALUResult = SrcA - SrcB;
             4'b0101:        // BEQ
                     ALUResult = (SrcA == SrcB) ? 1 : 0;
@@ -35,17 +34,6 @@ module alu#(
                     ALUResult = (SrcA < SrcB) ? 1 : 0;
             4'b1000:        // BGE
                     ALUResult = (SrcA >= SrcB) ? 1 : 0;
-=======
-                    ALUResult = $signed(SrcA) - $signed(SrcB);
-            4'b0101:        // Equal
-                    ALUResult = ($signed(SrcA) == $signed(SrcB)) ? 1 : 0;
-            4'b0110:        // Not equal
-                    ALUResult = (SrcA != SrcB) ? 1 : 0;
-            4'b0111:        // less than
-                    ALUResult = ($signed(SrcA) < $signed(SrcB)) ? 1 : 0;
-            4'b1000:        // greater or equal than
-                    ALUResult = ($signed(SrcA) >= $signed(SrcB)) ? 1 : 0;
->>>>>>> 1ae1f4b5da1c60e5dabc7e795713610110931769
             4'b1001:        // shift right (logic)
                     ALUResult = SrcA >> SrcB;
             4'b1010:        // shift left (logic)
