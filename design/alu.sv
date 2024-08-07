@@ -23,17 +23,17 @@ module alu#(
             4'b0010:        // OR
                     ALUResult = SrcA || SrcB;
             4'b0011:        // ADD, ADDI
-                    ALUResult = SrcA + SrcB;
+                    ALUResult = $signed(SrcA) + $signed(SrcB);
             4'b0100:        // SUB
-                    ALUResult = SrcA - SrcB;
+                    ALUResult = $signed(SrcA) - $signed(SrcB);
             4'b0101:        // Equal
-                    ALUResult = (SrcA == SrcB) ? 1 : 0;
+                    ALUResult = ($signed(SrcA) == $signed(SrcB)) ? 1 : 0;
             4'b0110:        // Not equal
                     ALUResult = (SrcA != SrcB) ? 1 : 0;
             4'b0111:        // less than
-                    ALUResult = (SrcA < SrcB) ? 1 : 0;
-            4'b1000:        // BGE
-                    ALUResult = (SrcA >= SrcB) ? 1 : 0;
+                    ALUResult = ($signed(SrcA) < $signed(SrcB)) ? 1 : 0;
+            4'b1000:        // greater or equal than
+                    ALUResult = ($signed(SrcA) >= $signed(SrcB)) ? 1 : 0;
             4'b1001:        // shift right (logic)
                     ALUResult = SrcA >> SrcB;
             4'b1010:        // shift left (logic)
