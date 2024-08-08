@@ -15,7 +15,7 @@ module Controller (
     output logic RegWrite, //The register on the Write register input is written with the value on the Write data input 
     output logic MemRead,  //Data memory contents designated by the address input are put on the Read data output
     output logic MemWrite, //Data memory contents designated by the address input are replaced by the value on the Write data input.
-    output logic [1:0] ALUOp,  //00: LW/SW; 01:Branch; 10: Rtype
+    output logic [2:0] ALUOp,  //00: LW/SW; 01:Branch; 10: Rtype
     output logic Branch,  //0: branch is not taken; 1: branch is taken
     output logic [1:0] JalType  //0: instruction is not a jump, 1: instruction is a jump
 );
@@ -31,15 +31,22 @@ module Controller (
   assign JALR = 7'b1100111;  //jalr
   assign LUI = 7'b0110111;  //lui
 
+  // 000 - LW/SW
+  // 001 - Branch
+  // 010 - Rtype & jalr & jal
+  // 011 - Itype
+  // 100 - lui & auipc
+
   assign ALUSrc = (Opcode == LW || Opcode == SW || Opcode == JALR || Opcode == I_TYPE || Opcode == LUI);
   assign MemtoReg = (Opcode == LW);
   assign RegWrite = (Opcode == R_TYPE || Opcode == LW || Opcode == JAL || Opcode == JALR || Opcode == I_TYPE || Opcode == LUI);
   assign MemRead = (Opcode == LW);
   assign MemWrite = (Opcode == SW);
 
-  assign ALUOp[0] = (Opcode == BR || Opcode == LUI);
-  assign ALUOp[1] = (Opcode == I_TYPE || Opcode == R_TYPE || Opcode == JAL || Opcode == JALR || Opcode == LUI);
-
+  assign ALUOp[0] = (Opcode == BR || Opcode == I_TYPE );
+  assign ALUOp[1] = (Opcode == I_TYPE || Opcode == R_TYPE || Opcode == JAL || Opcode == JALR);
+  assign ALUOp[2] = Opcode == LUI;
+  
   assign Branch = (Opcode == BR);
   assign JalType = {Opcode == JAL, Opcode == JALR};
 
