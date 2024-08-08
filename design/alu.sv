@@ -23,7 +23,7 @@ module alu#(
             4'b0010:        // OR
                     ALUResult = SrcA || SrcB;
             4'b0011:        // ADD, ADDI
-                    ALUResult = SrcA + SrcB;
+                    ALUResult = $signed(SrcA) + $signed(SrcB);
             4'b0100:        // SUB
                     ALUResult = SrcA - SrcB;
             4'b0101:        // BEQ
@@ -39,7 +39,7 @@ module alu#(
             4'b1010:        // shift left (logic) - SLLI
                     ALUResult = (SrcA << SrcB);
             4'b1011:        // shift right (arithmetic) - SRAI 
-                    ALUResult = SrcA >>> SrcB;
+                    ALUResult = $signed(SrcA) >>> SrcB[4:0];
             4'b1100:        // set with srcB - nossa LUI !
                     ALUResult = SrcB;
             4'b1111:        // True
