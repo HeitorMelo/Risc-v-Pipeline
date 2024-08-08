@@ -17,8 +17,8 @@ module ALUController (
 	  ((ALUOp == 3'b010) && (Funct3 == 3'b000) && (Funct7 == 7'b0000000)) ||	// ADD
       ((ALUOp == 3'b011) && (Funct3 == 3'b000)) ||	// ADDI
       ((ALUOp == 3'b010) && (Funct3 == 3'b100) && (Funct7 == 7'b0000000)) ||  // XOR
-      ((ALUOp == 3'b010) && (Funct3 == 3'b101) && (Funct7 == 7'b0000000)) || //SRLI
-      ((ALUOp == 3'b010) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000)) ||  // R\I->>>
+      ((ALUOp == 3'b011) && (Funct3 == 3'b101) && (Funct7 == 7'b0000000)) || //SRLI
+      ((ALUOp == 3'b011) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000)) ||  // R\I->>>
       (ALUOp == 3'b000) ||  // SW\SB LW\LH\LBU\LB
       ((ALUOp == 3'b011) && (Funct3 == 3'b010)); // SLTI 
 
@@ -27,8 +27,8 @@ module ALUController (
       ((ALUOp == 3'b011) && (Funct3 == 3'b000)) ||	// ADDI
       ((ALUOp == 3'b010) && (Funct3 == 3'b010)) ||  // SLT
       ((ALUOp == 3'b010) && (Funct3 == 3'b110) && (Funct7 == 7'b0000000)) ||   // OR
-      ((ALUOp == 3'b010) && (Funct3 == 3'b001) && (Funct7 == 7'b0000000)) || //SLLI
-      ((ALUOp == 3'b010) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000)) ||  // R\I->>>
+      ((ALUOp == 3'b011) && (Funct3 == 3'b001) && (Funct7 == 7'b0000000)) || //SLLI
+      ((ALUOp == 3'b011) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000)) ||  // R\I->>>
       ((ALUOp == 3'b011) && (Funct3 == 3'b010)) || // SLTI 
       ((ALUOp == 3'b001) && (Funct3 == 3'b001)) || // BNE
       ((ALUOp == 3'b001) && (Funct3 == 3'b100)); // BLT
@@ -42,9 +42,9 @@ module ALUController (
       (ALUOp == 3'b100); // LUI
 
   assign Operation[3] = (ALUOp == 3'b100) || // LUI
-      ((ALUOp == 2'b010) && (Funct3 == 3'b101) && (Funct7 == 7'b0000000)) || //SRLI
-      ((ALUOp == 3'b010) && (Funct3 == 3'b001) && (Funct7 == 7'b0000000)) || //SLLI
-      ((ALUOp == 3'b010) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000)) ||  // R\I->>>
+      ((ALUOp == 2'b011) && (Funct3 == 3'b101) && (Funct7 == 7'b0000000)) || //SRLI
+      ((ALUOp == 3'b011) && (Funct3 == 3'b001) && (Funct7 == 7'b0000000)) || //SLLI
+      ((ALUOp == 3'b011) && (Funct3 == 3'b101) && (Funct7 == 7'b0100000)) ||  // R\I->>>
       ((ALUOp == 3'b001) && (Funct3 == 3'b101));  // BGE
 
 endmodule
