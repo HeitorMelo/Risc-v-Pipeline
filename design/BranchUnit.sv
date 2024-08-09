@@ -19,7 +19,7 @@ module BranchUnit #(
 
   assign PC_Full = {23'b0, Cur_PC};
 
-  assign PC_Imm = (JalType == 2'b01) ? AluResult : PC_Full + Imm;
+  assign PC_Imm = (JalType == 2'b01) ? AluResult : $signed(PC_Full) + $signed(Imm);
   assign PC_Four = PC_Full + 32'b100;
   assign Branch_Sel = (Branch && AluResult[0]) || (JalType != 2'b00);  // 1:Branch is taken; 0:Branch is not taken
 

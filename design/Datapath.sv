@@ -89,7 +89,7 @@ module Datapath #(
 
   // IF_ID_Reg A;
   always @(posedge clk) begin
-    if (halt) begin 
+    if (halt && !PcSel) begin 
       reg_halt <= 1;
     end 
     else if (reset) begin     // initialization
