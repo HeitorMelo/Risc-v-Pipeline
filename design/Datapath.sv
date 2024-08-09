@@ -19,6 +19,7 @@ module Datapath #(
     MemRead,  // Memroy Reading Enable
     Branch,  // Branch Enable
     input  logic [          1:0] JalType,  // Jump and Link Register Enable
+    input logic halt,  // Halt Signal
     input  logic [          2:0] ALUOp,
     input  logic [ALU_CC_W -1:0] ALU_CC,         // ALU Control Code ( input of the ALU )
     output logic [          6:0] opcode,
@@ -52,6 +53,9 @@ module Datapath #(
   logic [DATA_W-1:0] FAmux_Result;
   logic [DATA_W-1:0] FBmux_Result;
   logic Reg_Stall;  //1: PC fetch same, Register not update
+  logic reg_halt;  //1: halt signal
+  logic sel_PCnext;
+  assign sel_PCnext = (Reg_Stall || reg_halt);
 
   if_id_reg A;
   id_ex_reg B;
@@ -74,7 +78,7 @@ module Datapath #(
       clk,
       reset,
       Next_PC,
-      Reg_Stall,
+      sel_PCnext,
       PC
   );
   instructionmemory instr_mem (
@@ -85,13 +89,22 @@ module Datapath #(
 
   // IF_ID_Reg A;
   always @(posedge clk) begin
+    if (halt) begin 
+      reg_halt <= 1;
+    end 
+    else if (reset) begin     // initialization
+      reg_halt <= 0;
+    end
+    else begin
+      reg_halt <= reg_halt;
+    end
+
     if ((reset) || (PcSel))   // initialization or flush
         begin
       A.Curr_Pc <= 0;
-      A.Curr_Instr <= 0;
+      A.Curr_Instr <= 0; 
     end
-        else if (!Reg_Stall)    // stall
-        begin
+    else if (!Reg_Stall) begin // stall
       A.Curr_Pc <= PC;
       A.Curr_Instr <= Instr;
     end
@@ -133,7 +146,7 @@ module Datapath #(
 
   // ID_EX_Reg B;
   always @(posedge clk) begin
-    if ((reset) || (Reg_Stall) || (PcSel))   // initialization or flush or generate a NOP if hazard
+    if ((reset) || (Reg_Stall) || (PcSel) || (halt))   // initialization or flush or generate a NOP if hazard
         begin
       B.ALUSrc <= 0;
       B.MemtoReg <= 0;

@@ -26,6 +26,7 @@ module riscv #(
   logic [6:0] Funct7;
   logic [2:0] Funct3;
   logic [3:0] Operation;
+  logic halt;
 
   Controller c (
       opcode,
@@ -36,7 +37,8 @@ module riscv #(
       MemWrite,
       ALUop,
       Branch, 
-      JalType
+      JalType,
+      halt
   );
 
   ALUController ac (
@@ -56,6 +58,7 @@ module riscv #(
       MemRead,
       Branch,
       JalType,
+      halt,
       ALUop,
       Operation,
       opcode,
