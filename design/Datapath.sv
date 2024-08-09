@@ -53,8 +53,9 @@ module Datapath #(
   logic [DATA_W-1:0] FAmux_Result;
   logic [DATA_W-1:0] FBmux_Result;
   logic Reg_Stall;  //1: PC fetch same, Register not update
+  logic reg_halt;  //1: halt signal
   logic sel_PCnext;
-  assign sel_PCnext = (Reg_Stall || halt);
+  assign sel_PCnext = (Reg_Stall || reg_halt);
 
   if_id_reg A;
   id_ex_reg B;
@@ -88,10 +89,20 @@ module Datapath #(
 
   // IF_ID_Reg A;
   always @(posedge clk) begin
-    if ((reset) || (PcSel) || (halt))   // initialization or flush
+    if (halt) begin 
+      reg_halt <= 1;
+    end 
+    else if (reset) begin     // initialization
+      reg_halt <= 0;
+    end
+    else begin
+      reg_halt <= reg_halt;
+    end
+
+    if ((reset) || (PcSel))   // initialization or flush
         begin
       A.Curr_Pc <= 0;
-      A.Curr_Instr <= 0;
+      A.Curr_Instr <= 0; 
     end
     else if (!Reg_Stall) begin // stall
       A.Curr_Pc <= PC;

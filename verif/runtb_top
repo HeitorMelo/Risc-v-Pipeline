@@ -9,6 +9,7 @@ add wave -position end sim:/tb_top/riscV/clk
 add wave -position end sim:/tb_top/riscV/reset
 add wave -position end sim:/tb_top/riscV/dp/Reg_Stall
 add wave -position end sim:/tb_top/riscV/dp/halt
+add wave -position end sim:/tb_top/riscV/dp/reg_halt
 add wave -position end sim:/tb_top/riscV/dp/instr_mem/rd
 add wave -position end sim:/tb_top/riscV/dp/B.RS_One
 add wave -position end sim:/tb_top/riscV/dp/B.RS_Two

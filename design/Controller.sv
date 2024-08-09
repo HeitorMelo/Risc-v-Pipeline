@@ -52,6 +52,6 @@ module Controller (
   assign Branch = (Opcode == BR);
   assign JalType = {Opcode == JAL, Opcode == JALR};
 
-  assign halt = (((Opcode == HALT) || halt) ? 1'b1 : 1'b0);
+  assign halt = (((Opcode == HALT)) ? 1'b1 : 1'b0);
 
 endmodule
